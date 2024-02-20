@@ -4,6 +4,7 @@ import MainLayout from './layouts/MainLayout';
 //import ErrorPage from './pages/ErrorPage';
 import HomePage from './pages/HomePage';
 import UserPage from './pages/UserPage';
+import TodosPage from './pages/TodosPage';
 
 export default function App() {
   const mainRoutes = {
@@ -13,6 +14,7 @@ export default function App() {
       { path: '*', element: <Navigate to='/404' /> },
       { path: '/', element: <HomePage /> },
       { path: 'users/:userId', element: <UserPage /> },
+      { path: 'todos', element: <TodosPage /> },
       // { path: '404', element: <ErrorPage />},
     ],
   };

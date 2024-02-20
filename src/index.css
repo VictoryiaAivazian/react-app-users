@@ -23,3 +23,7 @@ img {
 .user-img {
   max-width: 100px;
 }
+
+.main-layout {
+  padding: 30px 20px;
+}
