@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchTodos } from '../store/todosSlice'
-import { List, Row, Col, Empty } from 'antd'
-import { CheckCircleTwoTone, ExclamationCircleTwoTone } from '@ant-design/icons'
+import { fetchTodos, deleteTodo } from '../store/todosSlice'
+import { List, Row, Col, Empty, Button } from 'antd'
+import { CheckCircleTwoTone, ExclamationCircleTwoTone, DeleteOutlined } from '@ant-design/icons'
 
 const TodosList = () => {
 
@@ -32,6 +32,11 @@ const TodosList = () => {
                                     }
                                 </Col>
                                 <Col flex={2}> { item.title } </Col>
+                                <Col flex={2}>
+                                    <Button shape="circle" 
+                                            icon={<DeleteOutlined />} 
+                                            onClick={() => dispatch(deleteTodo(item.id))}/>
+                                </Col>
                             </Row>
                         </List.Item>
                     )}
