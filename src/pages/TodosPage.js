@@ -1,16 +1,14 @@
 import { useSelector } from 'react-redux'
 import TodosList from '../components/TodosList'
-import { Alert } from 'antd'
+import { Spin } from 'antd'
 
 const TodosPage = () => {
-    const error = useSelector(state => state.todos.error)
+    const pageLoading = useSelector(state => state.loading.loading)
 
     return (
         <>
-            { error 
-                ? <Alert message="Error" description={error} type="error" showIcon /> 
-                : <TodosList/>
-            }
+            <Spin fullscreen spinning={pageLoading} tip="Loading..."></Spin>
+            <TodosList/>
         </>
     )
 }

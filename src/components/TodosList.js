@@ -1,13 +1,41 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchTodos, deleteTodo } from '../store/todosSlice'
-import { List, Row, Col, Empty, Button } from 'antd'
-import { CheckCircleTwoTone, ExclamationCircleTwoTone, DeleteOutlined } from '@ant-design/icons'
+import { fetchTodos, deleteTodo, addTodo } from '../store/todosSlice'
+import { setPageLoader } from '../store/loadingSlice'
+import { List, Row, Col, Empty, Button, Modal, Input, Alert } from 'antd'
+import { 
+    CheckCircleTwoTone, 
+    ExclamationCircleTwoTone, 
+    DeleteOutlined, 
+    PlusOutlined 
+} from '@ant-design/icons'
 
 const TodosList = () => {
 
-    const { todos, loading} = useSelector(state => state.todos)
+    const { todos, loading, error } = useSelector(state => state.todos)
     const dispatch = useDispatch()
+
+    const [modalOpen, setModalOpen] = useState(false)
+    const [newTodo, setNewTodo] = useState(null)
+
+    const handleChange = (e) => {
+        setNewTodo({
+            completed:false,
+            id: todos.length + 1,
+            title: e.target.value,
+            userId: todos.length + 1,
+        })
+    }
+
+    const saveTodo = () => {
+        dispatch(setPageLoader(true))
+        setModalOpen(false)
+
+        dispatch(addTodo(newTodo))
+            .finally(() => {
+                dispatch(setPageLoader(false))
+            })
+    }
 
     useEffect(() => {
         dispatch(fetchTodos())
@@ -43,6 +71,25 @@ const TodosList = () => {
                 />
                 : <Empty/>
             }
+            <Button type="primary" 
+                    size="large" 
+                    icon={<PlusOutlined />}
+                    onClick={() => setModalOpen(true)}>
+                    Add new todo
+            </Button>
+            <Modal
+                title="Add new todo"
+                centered
+                maskClosable={false}
+                closable={false}
+                open={modalOpen}
+                onOk={saveTodo}
+                onCancel={() => setModalOpen(false)}
+            >
+                <label>Title</label>
+                <Input onChange={(e) => handleChange(e)}/>
+            </Modal>
+            {/* <Alert message="Error" description={error} type="error" showIcon />  */}
         </>
     )
 }
